@@ -80,54 +80,65 @@ Write-Host "START - [Convert Sitecore Module to .scwdp]"
 Write-Host "`n"
 
 $packagePath = $PSScriptRoot + "\Package\$ModulePackageName"
-$destinationPath = $PSScriptRoot + "\scwpd"
+$scwdpDirectory = $PSScriptRoot + "\scwpd"
 
 Import-Module .\SAT\tools\Sitecore.Cloud.Cmdlets.psm1
 Import-Module .\SAT\tools\Sitecore.Cloud.Cmdlets.dll
 
-Remove-Item -Path $destinationPath -Recurse
+If (!(Test-Path($packagePath))) {
+    Write-Host "ERROR - Make sure the $packagePath exists!" -ForegroundColor Red
+}
+else {
+    If (!(Test-Path($scwdpDirectory))) {
+        New-Item -ItemType Directory -Force -Path $scwdpDirectory
+    }
 
-$scwdpPath = ConvertTo-SCModuleWebDeployPackage -Path $packagePath  -Destination $destinationPath -Force
-Write-Host "SUCCESS - Your Sitecore Module was converted to a Sitecore WebDeploy package and is located at:" -ForegroundColor Green
-Write-Host "`n"
-Write-Host "$scwdpPath" -ForegroundColor Yellow
-Write-Host "`n"
+    Get-ChildItem -Path $scwdpDirectory -Recurse | Foreach-object { Remove-item -Recurse -path $_.FullName }
 
-Write-Host "=================================================================================================================================="
-Write-Host "`n"
-Write-Host "START - [Creating Sitecore module asset image structure]"
-Write-Host "`n"
+    $scwdpPath = ConvertTo-SCModuleWebDeployPackage -Path $packagePath -Destination $scwdpDirectory -Force
+    Write-Host "SUCCESS - Your Sitecore Module was converted to a Sitecore WebDeploy package and is located at:" -ForegroundColor Green
+    Write-Host "`n"
+    Write-Host "$scwdpPath" -ForegroundColor Yellow
+    Write-Host "`n"
 
-$moduleDirectory = $PSScriptRoot + "\Module"
-$cmContentDirectory = $moduleDirectory + "\cm\content"
-$dbDirectory = $moduleDirectory + "\db"
-$solrDirectory = $moduleDirectory + "\solr"
-$toolsDirectory = $moduleDirectory + "\tools"
+    Write-Host "=================================================================================================================================="
+    Write-Host "`n"
+    Write-Host "START - [Creating Sitecore module asset image structure]"
+    Write-Host "`n"
 
-If (!(Test-Path($moduleDirectory))) {
-    New-Item -ItemType Directory -Force -Path $moduleDirectory
+    $moduleDirectory = $PSScriptRoot + "\Module"
+    $cmContentDirectory = $moduleDirectory + "\cm\content"
+    $dbDirectory = $moduleDirectory + "\db"
+    $solrDirectory = $moduleDirectory + "\solr"
+    $toolsDirectory = $moduleDirectory + "\tools"
+
+    If (!(Test-Path($moduleDirectory))) {
+        New-Item -ItemType Directory -Force -Path $moduleDirectory
+    }
+
+    Remove-Item -Path $moduleDirectory -Recurse
+
+    If (!(Test-Path($cmContentDirectory))) {
+        New-Item -ItemType Directory -Force -Path $cmContentDirectory
+    }
+
+    If (!(Test-Path($dbDirectory))) {
+        New-Item -ItemType Directory -Force -Path $dbDirectory
+    }
+
+    If (!(Test-Path($solrDirectory))) {
+        New-Item -ItemType Directory -Force -Path $solrDirectory
+    }
+
+    If (!(Test-Path($toolsDirectory))) {
+        New-Item -ItemType Directory -Force -Path $toolsDirectory
+    }
+
+    Write-Host "=================================================================================================================================="
+    Write-Host "`n"
 }
 
-Remove-Item -Path $moduleDirectory -Recurse
 
-If (!(Test-Path($cmContentDirectory))) {
-    New-Item -ItemType Directory -Force -Path $cmContentDirectory
-}
-
-If (!(Test-Path($dbDirectory))) {
-    New-Item -ItemType Directory -Force -Path $dbDirectory
-}
-
-If (!(Test-Path($solrDirectory))) {
-    New-Item -ItemType Directory -Force -Path $solrDirectory
-}
-
-If (!(Test-Path($toolsDirectory))) {
-    New-Item -ItemType Directory -Force -Path $toolsDirectory
-}
-
-Write-Host "=================================================================================================================================="
-Write-Host "`n"
 
 Show-Stop
 
