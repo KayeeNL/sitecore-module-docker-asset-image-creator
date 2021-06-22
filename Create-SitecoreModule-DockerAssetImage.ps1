@@ -103,6 +103,19 @@ else {
 
     Write-Host "=================================================================================================================================="
     Write-Host "`n"
+    Write-Host "START - [Extracting Sitecore WebDeploy package]"
+    Write-Host "`n"
+
+    $extractSCwdpDirectory = $scwdpDirectory + "\extract"
+
+    If (!(Test-Path($extractSCwdpDirectory))) {
+        New-Item -ItemType Directory -Force -Path $extractSCwdpDirectory
+    }
+
+    Expand-Archive -Path "$scwdpPath" -DestinationPath "$extractSCwdpDirectory" -Force
+
+    Write-Host "=================================================================================================================================="
+    Write-Host "`n"
     Write-Host "START - [Creating Sitecore module asset image structure]"
     Write-Host "`n"
 
@@ -134,6 +147,14 @@ else {
         New-Item -ItemType Directory -Force -Path $toolsDirectory
     }
 
+    Write-Host "=================================================================================================================================="
+    Write-Host "`n"
+    Write-Host "SUCCESS - Succesfully created the Docker Asset Image structure in directory $moduleDirectory" -ForegroundColor Green
+    Write-Host "`n"
+
+    tree $moduleDirectory /a
+
+    Write-Host "`n"
     Write-Host "=================================================================================================================================="
     Write-Host "`n"
 }
