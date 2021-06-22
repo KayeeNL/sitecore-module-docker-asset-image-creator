@@ -44,11 +44,13 @@ Write-Host "`n"
 $satDirecory = $PSScriptRoot + "\SAT"
 
 if (Test-Path -Path "$satDirecory\$satPackageName") {
-    Write-Host "SKIPPING - $satDirecory folder already contains the $satPackageName file"
+    Write-Host "SKIPPING - $satDirecory folder already contains the $satPackageName file" -ForegroundColor Cyan
 }
 else {
     Write-Host "START - downloading the $satPackageName file from dev.sitecore.net"
     Invoke-WebRequest -Uri $satUrl -OutFile "$satDirecory\$satPackageName"
+    Write-Host "`n"
+    Write-Host "SUCCESS - Downloaded the $satPackageName file from dev.sitecore.net" -ForegroundColor Green
 }
 
 Write-Host "`n"
@@ -58,15 +60,13 @@ Write-Host "`n"
 Write-Host "START - [Sitecore Azure Toolkit extract]"
 Write-Host "`n"
 
-
-
 if (-not(Test-Path ".\SAT\tools\Sitecore.Cloud.Cmdlets.dll")) {
     Expand-Archive -Path "$satDirecory\$satPackageName" -DestinationPath "$satDirecory" -Force
-    Write-Host "SUCCESS - Extracted $satPackageName to the $satDirecory directory:"
+    Write-Host "SUCCESS - Extracted $satPackageName to the $satDirecory directory" -ForegroundColor Green
     Write-Host "`n"
 }
 else {
-    Write-Host "SKIPPING - $satPackageName is already extracted to the $satDirecory directory"
+    Write-Host "SKIPPING - $satPackageName is already extracted to the $satDirecory directory" -ForegroundColor Cyan
     Write-Host "`n"
 }
 
@@ -81,13 +81,51 @@ $destinationPath = $PSScriptRoot + "\scwpd"
 Import-Module .\SAT\tools\Sitecore.Cloud.Cmdlets.psm1
 Import-Module .\SAT\tools\Sitecore.Cloud.Cmdlets.dll
 
+Remove-Item -Path $destinationPath -Recurse
+
 $scwdpPath = ConvertTo-SCModuleWebDeployPackage -Path $packagePath  -Destination $destinationPath -Force
-Write-Host "SUCCESS - Your Sitecore Module was converted to a Sitecore WebDeploy package and is located at:"
+Write-Host "SUCCESS - Your Sitecore Module was converted to a Sitecore WebDeploy package and is located at:" -ForegroundColor Green
 Write-Host "`n"
 Write-Host "$scwdpPath" -ForegroundColor Yellow
 Write-Host "`n"
 
 Write-Host "=================================================================================================================================="
 Write-Host "`n"
+Write-Host "START - [Creating Sitecore module asset image structure]"
+Write-Host "`n"
+
+$moduleDirectory = $PSScriptRoot + "\Module"
+$cmContentDirectory = $moduleDirectory + "\cm\content"
+$dbDirectory = $moduleDirectory + "\db"
+$solrDirectory = $moduleDirectory + "\solr"
+$toolsDirectory = $moduleDirectory + "\tools"
+
+If (!(Test-Path($moduleDirectory))) {
+    New-Item -ItemType Directory -Force -Path $moduleDirectory
+}
+
+Remove-Item -Path $moduleDirectory -Recurse
+
+If (!(Test-Path($cmContentDirectory))) {
+    New-Item -ItemType Directory -Force -Path $cmContentDirectory
+}
+
+If (!(Test-Path($dbDirectory))) {
+    New-Item -ItemType Directory -Force -Path $dbDirectory
+}
+
+If (!(Test-Path($solrDirectory))) {
+    New-Item -ItemType Directory -Force -Path $solrDirectory
+}
+
+If (!(Test-Path($toolsDirectory))) {
+    New-Item -ItemType Directory -Force -Path $toolsDirectory
+}
+
+Write-Host "=================================================================================================================================="
+Write-Host "`n"
 
 Show-Stop
+
+# Cleaning up the modules
+Get-Module | Remove-Module
