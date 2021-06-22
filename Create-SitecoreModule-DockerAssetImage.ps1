@@ -43,6 +43,10 @@ Write-Host "`n"
 
 $satDirecory = $PSScriptRoot + "\SAT"
 
+If (!(Test-Path($satDirecory))) {
+    New-Item -ItemType Directory -Force -Path $satDirecory
+}
+
 if (Test-Path -Path "$satDirecory\$satPackageName") {
     Write-Host "SKIPPING - $satDirecory folder already contains the $satPackageName file" -ForegroundColor Cyan
 }
