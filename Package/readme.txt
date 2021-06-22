@@ -1,0 +1,1 @@
+Put your Sitecore Module .zip Sitecore package into this directory
