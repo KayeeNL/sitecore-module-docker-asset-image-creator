@@ -108,7 +108,7 @@ else {
 
     $extractSCwdpDirectory = $scwdpDirectory + "\extract"
 
-    If (!(Test-Path($extractSCwdpDirectory))) {
+    if (!(Test-Path($extractSCwdpDirectory))) {
         New-Item -ItemType Directory -Force -Path $extractSCwdpDirectory
     }
 
