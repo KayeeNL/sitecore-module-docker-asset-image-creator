@@ -149,10 +149,29 @@ else {
 
     Write-Host "=================================================================================================================================="
     Write-Host "`n"
+    Write-Host "START - [Copying over .scwdp contents to Sitecore module asset image structure]"
+    Write-Host "`n"
+
+    # Copy content
+    Copy-Item -Path "$extractSCwdpDirectory\Content\Website\*" -Destination $cmContentDirectory -PassThru -Recurse
+
+    # Copy dacpacs + rename
+    if (Test-Path("$extractSCwdpDirectory\core.dacpac")) {
+        Copy-Item -Path "$extractSCwdpDirectory\core.dacpac" -Destination $dbDirectory -PassThru
+        Rename-Item -Path "$dbDirectory\core.dacpac" -NewName "Sitecore.Core.dacpac"
+    }
+
+    if (Test-Path("$extractSCwdpDirectory\master.dacpac")) {
+        Copy-Item -Path "$extractSCwdpDirectory\master.dacpac" -Destination $dbDirectory -PassThru
+        Rename-Item -Path "$dbDirectory\master.dacpac" -NewName "Sitecore.Master.dacpac"
+    }
+    
+    Write-Host "=================================================================================================================================="
+    Write-Host "`n"
     Write-Host "SUCCESS - Succesfully created the Docker Asset Image structure in directory $moduleDirectory" -ForegroundColor Green
     Write-Host "`n"
 
-    tree $moduleDirectory /a
+    tree $moduleDirectory /f /a
 
     Write-Host "`n"
     Write-Host "=================================================================================================================================="
