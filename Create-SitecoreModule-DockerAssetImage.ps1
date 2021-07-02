@@ -88,7 +88,7 @@ else {
     Write-Host "`n"
 
     $packagePath = $PSScriptRoot + "\Package\$ModulePackageName"
-    $scwdpDirectory = $PSScriptRoot + "\scwpd"
+    $scwdpDirectory = $PSScriptRoot + "\scwdp"
 
     Import-Module .\SAT\tools\Sitecore.Cloud.Cmdlets.psm1
     Import-Module .\SAT\tools\Sitecore.Cloud.Cmdlets.dll
