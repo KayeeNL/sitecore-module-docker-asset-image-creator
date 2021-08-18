@@ -107,17 +107,9 @@ else {
             New-Item -ItemType Directory -Force -Path $scwdpDirectory
         }
        
-        # no need to delete existing scwdp
-        #Get-ChildItem -Path $scwdpDirectory -Recurse | Foreach-object { Remove-item -Recurse -path $_.FullName }
-
-        #original
-        #$scwdpPath = ConvertTo-SCModuleWebDeployPackage -Path $packagePath -Destination $scwdpDirectory -Force
-        
-        #new
         $scwdpPath = ConvertTo-SCModuleWebDeployPackage -Path $packagePath -Destination $scwdpDestination -Force
         Write-Host "SUCCESS - Your Sitecore Module was converted to a Sitecore WebDeploy package and is located at:" -ForegroundColor Green
-        Write-Host "`n"
-        #Write-Host "$scwdpPath" -ForegroundColor Yellow
+        Write-Host "`n"        
         Write-Host "$scwdpDestination" -ForegroundColor Yellow
         Write-Host "`n"
 
@@ -140,8 +132,7 @@ else {
         Write-Host "`n"
         Write-Host "START - [Creating Sitecore module asset image structure]"
         Write-Host "`n"
-
-        #$moduleDirectory = $PSScriptRoot + "\$scwdpModuleFolder\Module"
+        
         $moduleDirectory = "$scwdpDestination\Module"
         
         $cmContentDirectory = $moduleDirectory + "\cm\content"
@@ -152,8 +143,6 @@ else {
         If (!(Test-Path($moduleDirectory))) {
             New-Item -ItemType Directory -Force -Path $moduleDirectory
         }
-
-        #Remove-Item -Path $moduleDirectory -Recurse
 
         If (!(Test-Path($cmContentDirectory))) {
             New-Item -ItemType Directory -Force -Path $cmContentDirectory
