@@ -87,7 +87,7 @@ else {
     Write-Host "START - [Convert Sitecore Module to .scwdp]"
     Write-Host "`n"
 
-    $dateTime = (Get-Date).tostring("ddMMyyyyhhmmss")
+    $dateTime = (Get-Date).tostring("ddMMyyyyHHmmss")
     $packagePath = $PSScriptRoot + "\Package\$ModulePackageName"
     $modulePackageItem = Get-Item $packagePath
     $modulePackageNameSinExtension = $modulePackageItem.BaseName    
