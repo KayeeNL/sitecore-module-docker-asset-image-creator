@@ -16,7 +16,7 @@
         https://ericastockwellalpert.wordpress.com/2021/02/23/creating-a-docker-asset-image-for-your-sitecore-module-and-adding-it-to-your-site/
     .NOTES
         Version:        1.0
-        Author:         Robbert Hock - Kayee - Sitecore MVP 2010-2021
+        Author:         Robbert Hock - Kayee - Sitecore MVP 2010-2022
         Creation Date:  June/July 2021
         Purpose/Change: Initial script development 
 #>
@@ -87,7 +87,7 @@ else {
     Write-Host "START - [Convert Sitecore Module to .scwdp]"
     Write-Host "`n"
 
-    $dateTime = (Get-Date).tostring("ddMMyyyyHHmmss")
+    $dateTime = (Get-Date).tostring("yyyyMMdd_HHmmss")
     $packagePath = $PSScriptRoot + "\Package\$ModulePackageName"
     $modulePackageItem = Get-Item $packagePath
     $modulePackageNameSinExtension = $modulePackageItem.BaseName    
