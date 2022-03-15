@@ -87,8 +87,14 @@ else {
     Write-Host "START - [Convert Sitecore Module to .scwdp]"
     Write-Host "`n"
 
+    $dateTime = (Get-Date).tostring("ddMMyyyyHHmmss")
     $packagePath = $PSScriptRoot + "\Package\$ModulePackageName"
+    $modulePackageItem = Get-Item $packagePath
+    $modulePackageNameSinExtension = $modulePackageItem.BaseName    
     $scwdpDirectory = $PSScriptRoot + "\scwdp"
+    $scwdpModuleFolder = $modulePackageNameSinExtension + "_$dateTime"
+    $scwdpDestination = "$scwdpDirectory\$scwdpModuleFolder"
+    
 
     Import-Module .\SAT\tools\Sitecore.Cloud.Cmdlets.psm1
     Import-Module .\SAT\tools\Sitecore.Cloud.Cmdlets.dll
@@ -100,13 +106,11 @@ else {
         If (!(Test-Path($scwdpDirectory))) {
             New-Item -ItemType Directory -Force -Path $scwdpDirectory
         }
-
-        Get-ChildItem -Path $scwdpDirectory -Recurse | Foreach-object { Remove-item -Recurse -path $_.FullName }
-
-        $scwdpPath = ConvertTo-SCModuleWebDeployPackage -Path $packagePath -Destination $scwdpDirectory -Force
+       
+        $scwdpPath = ConvertTo-SCModuleWebDeployPackage -Path $packagePath -Destination $scwdpDestination -Force
         Write-Host "SUCCESS - Your Sitecore Module was converted to a Sitecore WebDeploy package and is located at:" -ForegroundColor Green
-        Write-Host "`n"
-        Write-Host "$scwdpPath" -ForegroundColor Yellow
+        Write-Host "`n"        
+        Write-Host "$scwdpDestination" -ForegroundColor Yellow
         Write-Host "`n"
 
         Write-Host "=================================================================================================================================="
@@ -114,11 +118,13 @@ else {
         Write-Host "START - [Extracting Sitecore WebDeploy package]"
         Write-Host "`n"
 
-        $extractSCwdpDirectory = $scwdpDirectory + "\extract"
+        $extractSCwdpDirectory = $scwdpDestination + "\extract_scwdp"
 
         if (!(Test-Path($extractSCwdpDirectory))) {
             New-Item -ItemType Directory -Force -Path $extractSCwdpDirectory
         }
+        
+        $extractSCwdpDirectory
 
         Expand-Archive -Path "$scwdpPath" -DestinationPath "$extractSCwdpDirectory" -Force
 
@@ -126,8 +132,9 @@ else {
         Write-Host "`n"
         Write-Host "START - [Creating Sitecore module asset image structure]"
         Write-Host "`n"
-
-        $moduleDirectory = $PSScriptRoot + "\Module"
+        
+        $moduleDirectory = "$scwdpDestination\Module"
+        
         $cmContentDirectory = $moduleDirectory + "\cm\content"
         $dbDirectory = $moduleDirectory + "\db"
         $solrDirectory = $moduleDirectory + "\solr"
@@ -136,8 +143,6 @@ else {
         If (!(Test-Path($moduleDirectory))) {
             New-Item -ItemType Directory -Force -Path $moduleDirectory
         }
-
-        Remove-Item -Path $moduleDirectory -Recurse
 
         If (!(Test-Path($cmContentDirectory))) {
             New-Item -ItemType Directory -Force -Path $cmContentDirectory
