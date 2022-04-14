@@ -6,7 +6,7 @@ This repository contains a script to handle the auto creation of a Docker Asset 
 - Add the Sitecore module package to Package folder under root
 - Then invoke the script as shown in example below to convert it into scwdp (used for Azure PaaS) as well as extract the scwdp into a Module folder used for generating the docker image
   ```powershell
-   .\Create-SitecoreModule-DockerAssetImage.ps1 -ModulePackageName "Brightcove.Media.Framework-10.0.zip"
+   .\Create-SitecoreModule-DockerAssetImage.ps1 -ModulePackageName "Sitecore.PowerShell.Extensions-6.3.zip" -Tag "sitecorepowershell/sitecore-powershell-extensions:6.3-1809" -GenerateCdContentDirectory
   ```
 - The folder name is generated based on the ModulePackageName provided while invoking the script and appends the current datetime stamp in `ModulePackageName_yyyyMMdd_HHmmss` format
 - Run the docker file under Module folder to generate the image. The script only extracts it for CM role. For other roles, you have to manually create role specific docker files
