@@ -20,3 +20,4 @@ Robbert Hock - Twitter: @kayeeNL, GitHub: https://github.com/KayeeNL
 Anton Tishchenko - Twitter: @ativn, GitHub: https://github.com/Antonytm
 Christopher Huemmer - Twitter: @chrishmmr, GitHub: https://github.com/chris-hmmr
 Venkata Phani Abburi - Twitter: @phani_abburi, GitHub: https://github.com/phaniav
+Kamruz Jaman - Twitter: @jammykam, GitHub: https://github.com/konabos
