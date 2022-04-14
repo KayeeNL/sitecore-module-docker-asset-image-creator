@@ -47,15 +47,6 @@ if (!$ModulePackageName) {
     Break
 }
 
-if (!$Tag) {
-    Write-Host "================================================================================================================================="
-    Write-Host "`n"
-    Write-Host "ERROR - Make sure you pass in the -Tag parameter. e.g. .\\Create-SitecoreModule-DockerAssetImage.ps1 -Tag 'DOCKER IMAGE TAG'" -ForegroundColor Red
-    Write-Host "`n"
-    Write-Host "================================================================================================================================="
-    Break
-}
-
 Write-Host "================================================================================================================================="
 Write-Host "`n"
 Write-Host "START - [Sitecore Azure Toolkit download]"
@@ -217,19 +208,21 @@ Write-Host "`n"
 
 tree $moduleDirectory /f /a
 
-Write-Host "========================================================================================================================"
-Write-Host "`n"
-Write-Host "START - [Building Docker Image] -" $Tag.ToLower()
-Write-Host "`n"
+if ($Tag) {
+    Write-Host "========================================================================================================================"
+    Write-Host "`n"
+    Write-Host "START - [Building Docker Image] -" $Tag.ToLower()
+    Write-Host "`n"
 
-Set-Location -Path $moduleDirectory
-docker build --tag $Tag.ToLower() .
+    Set-Location -Path $moduleDirectory
+    docker build --tag $Tag.ToLower() .
 
-Write-Host "=================================================================================================================================="
-Write-Host "`n"
-Write-Host "SUCCESS - Created local image" $Tag.ToLower() -ForegroundColor Green
-Write-Host "Don't forget to push the image to the Container Registry or Docker Hub." -ForegroundColor Yellow
-Write-Host "`n"
+    Write-Host "=================================================================================================================================="
+    Write-Host "`n"
+    Write-Host "SUCCESS - Created local image" $Tag.ToLower() -ForegroundColor Green
+    Write-Host "Don't forget to push the image to the Container Registry or Docker Hub." -ForegroundColor Yellow
+    Write-Host "`n"
+}
 
 Write-Host "`n"
 Write-Host "=================================================================================================================================="
