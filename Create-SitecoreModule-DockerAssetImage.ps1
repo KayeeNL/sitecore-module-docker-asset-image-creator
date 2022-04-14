@@ -209,6 +209,12 @@ Write-Host "`n"
 tree $moduleDirectory /f /a
 
 if ($Tag) {
+
+    if (-Not (docker ps)) {
+        Write-Host "FAILED - Could not create the Docker image. Are you sure the Docker daemon is running?" -ForegroundColor Red
+        Break
+    }
+
     Write-Host "========================================================================================================================"
     Write-Host "`n"
     Write-Host "START - [Building Docker Image] -" $Tag.ToLower()
