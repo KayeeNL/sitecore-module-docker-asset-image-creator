@@ -16,8 +16,8 @@ This repository contains a script to handle the auto creation of a Docker Asset 
 
 # Contributors
 
-Robbert Hock - Twitter: @kayeeNL, GitHub: https://github.com/KayeeNL
-Anton Tishchenko - Twitter: @ativn, GitHub: https://github.com/Antonytm
-Christopher Huemmer - Twitter: @chrishmmr, GitHub: https://github.com/chris-hmmr
-Venkata Phani Abburi - Twitter: @phani_abburi, GitHub: https://github.com/phaniav
-Kamruz Jaman - Twitter: @jammykam, GitHub: https://github.com/konabos
+- Robbert Hock - Twitter: @kayeeNL, GitHub: https://github.com/KayeeNL
+- Anton Tishchenko - Twitter: @ativn, GitHub: https://github.com/Antonytm
+- Christopher Huemmer - Twitter: @chrishmmr, GitHub: https://github.com/chris-hmmr
+- Venkata Phani Abburi - Twitter: @phani_abburi, GitHub: https://github.com/phaniav
+- Kamruz Jaman - Twitter: @jammykam, GitHub: https://github.com/konabos
