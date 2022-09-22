@@ -30,6 +30,8 @@ param(
     [switch] $GenerateCdContentDirectory
 )
 
+$ErrorActionPreference = "Stop"
+
 #---------------------------------[Read configuration]------------------------------------------------
 $configurationPath = "configuration.json"
 $jsonConfiguration = Get-Content -Path $configurationPath | ConvertFrom-Json
