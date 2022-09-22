@@ -175,11 +175,13 @@ Write-Host "START - [Copying over .scwdp contents to Sitecore module asset image
 Write-Host "`n"
 
 # Copy content
-Copy-Item -Path "$extractSCwdpDirectory\Content\Website\*" -Destination $cmContentDirectory -PassThru -Recurse
+If (Test-Path "$extractSCwdpDirectory\Content\Website") {
+    Copy-Item -Path "$extractSCwdpDirectory\Content\Website\*" -Destination $cmContentDirectory -PassThru -Recurse
             
-if ($GenerateCdContentDirectory) {
-    # Copy content to create CD layer folders
-    Copy-Item -Path $cmContentDirectory\* -Destination $cdContentDirectory -PassThru -Recurse
+    if ($GenerateCdContentDirectory) {
+        # Copy content to create CD layer folders
+        Copy-Item -Path $cmContentDirectory\* -Destination $cdContentDirectory -PassThru -Recurse
+    }
 }
 
 # Copy dacpacs + rename
