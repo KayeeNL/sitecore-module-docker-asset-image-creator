@@ -3,12 +3,12 @@
 		"SitecoreAzureToolkitUrl": {
 			"Type": "string",
 			"Description": "The Url of the Sitecore Azure Toolkit",
-			"DefaultValue": "https://sitecoredev.azureedge.net/~/media/0041D6C02A8041E89C13B611B2432834.ashx"
+			"DefaultValue": "https://sitecoredev.azureedge.net/~/media/AF2BDA90F479458888791F5F0DD33B08.ashx"
 		},
 		"SitecoreAzureToolkitPackageName": {
 			"Type": "string",
 			"Description": "The name of Sitecore Azure Toolkit package",
-			"DefaultValue": "Sitecore Azure Toolkit 2.7.0-r02533.1285.zip"
+			"DefaultValue": "Sitecore Azure Toolkit 2.8.0-r02542.1366.zip"
 		}
 	}
 }
